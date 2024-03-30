@@ -1,0 +1,42 @@
+<header class="h-14 bg-blue-800 w-full fixed flex justify-between items-center shadow px-2 md:px-4 gap-7">
+    <div class="flex items-center gap-4">
+        <div routerLink="/task-m/your-work" class="flex text-white items-center gap-2 cursor-pointer">
+            <i class="fa fa-bars text-white lg:hidden"></i>
+            <span class=" font-black text-xl whitespace-nowrap">TASK-M</span>
+            <!-- <span class="text-sm  font-semibold">Sagar Devendra MEAN Project</span> -->
+        </div>
+        <ul class="lg:flex items-center gap-2 text-white hidden ">
+            <li routerLinkActive="bg-white  text-blue-700" routerLink="/task-m/your-work"
+                class="flex transition-all whitespace-nowrap duration-200 cursor-pointer px-3 rounded py-1 hover:bg-white hover:text-blue-700 items-center gap-0.5">
+                Your work</li>
+            <li routerLinkActive="bg-white text-blue-700" routerLink="/task-m/project"
+                class="flex transition-all  duration-200 cursor-pointer px-3 rounded py-1 hover:bg-white hover:text-blue-700 items-center gap-0.5">
+                Project</li>
+            <li routerLinkActive="bg-white text-blue-700" routerLink="/task-m/teams"
+                class="flex transition-all  duration-200 cursor-pointer px-3 rounded py-1 hover:bg-white hover:text-blue-700 items-center gap-0.5">
+                Teams</li>
+            <li routerLinkActive="bg-white text-blue-700" routerLink="/task-m/apps"
+                class="flex transition-all  duration-200 cursor-pointer px-3 rounded py-1 hover:bg-white hover:text-blue-700 items-center gap-0.5">
+                Apps</li>
+            <li routerLinkActive="bg-white text-blue-700" routerLink="/task-m/create"
+                class="flex transition-all  duration-200 cursor-pointer px-3 rounded py-1 hover:bg-white hover:text-blue-700 items-center gap-0.5">
+                Create</li>
+        </ul>
+    </div>
+    <!-- <div class="border bg-gray-50 flex-grow rounded  relative hidden md:flex gap-2 items-center">
+        <i class="fa fa-search text-gray-400 absolute left-2.5"></i>
+        <input 
+            [ngClass]="'border-gray-300 focus:border-gray-500'"
+            class="outline-none bg-transparent placeholder:capitalize flex-grow px-3 rounded py-1.5 pl-8 border text-gray-700 placeholder:text-sm"
+            placeholder="Search" type="text" />
+    </div> -->
+    <i class="far fa-user-circle  text-2xl text-white md:hidden"></i>
+    <div class="hidden md:flex items-center gap-1">
+        <i class="far fa-user-circle  text-2xl text-white"></i>
+        <div class="flex flex-col text-white" *ngFor="let data of this.userDetails">
+            <span class="capitalize text-base font-semibold">{{data.userName}}</span>
+            <span class="text-sm w-36  overflow-hidden text-ellipsis text-zinc-100 -mt-1">{{data.userEmail}}</span>
+        </div>
+
+    </div>
+</header>

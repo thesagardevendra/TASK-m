@@ -1,0 +1,10 @@
+[
+    {
+        "fullName": "Sagar Devendra",
+        "password": "Password@1234",
+        "email": "sagarselvaraj059@gmail.com",
+        "mobile": "9372925369",
+        "createdAt":new Date(),
+        "modifiedAt":new Date()
+    }
+]

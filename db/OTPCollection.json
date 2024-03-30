@@ -1,0 +1,11 @@
+[
+    {
+        "OTPNumber": "33333", "OTPSentGmail": "true","userPassword": "Password@12345","userEmail": "sagarselvaraj059@gmail.com","userMobileNumber": "9372925369","userFullName": "Sagar Devendra",  "createdAt": new Date(),"modifiedAt": new Date()
+    }
+]
+
+// db.OTPInfo.insertOne({"OTPNumber": "33333", "OTPSentGmail": "true","userPassword": "Password@12345","userEmail": "sagarselvaraj059@gmail.com","userMobileNumber": "9372925369","userFullName": "Sagar Devendra",  "createdAt": new Date(),"modifiedAt": new Date()})
+
+// sagarselvaraj059@gmail.com
+// marchbackupphotos7@gmail.com
+//devendraselvaraj8@gmail.com 

@@ -1,0 +1,32 @@
+[
+    {
+        "projectName": "33333",
+        "issueType": "true",
+        "summary": "Password@12345",
+        "priority": "P1",
+        "description": "Sagar Devendra",
+        "createdBy": "Sagar Devendra",
+        "assignee": "Sagar Devendra",
+        "startDate":  new Date().toLocaleDateString(),
+        "endDate":  new Date().toLocaleDateString(),
+        "createdAt": new Date().toLocaleDateString(),
+        "modifiedAt": new Date().toLocaleDateString()
+    }
+]
+
+projectName", "issueType", "summary", "priority", "description", "assignee","startDate", "endDate",  "createdAt", "modifiedAt"
+// db.task.insertOne({"projectName": "CSPA",
+"issueType": "Task",
+"summary": "Password@12345",
+"priority": "P1",
+"description": "Sagar Devendra",
+"createdBy": "Sagar Devendra",
+"assignee": "Sagar Devendra",
+"startDate":  new Date(),
+"endDate":  new Date(),
+"createdAt": new Date(),
+"modifiedAt": new Date()
+})
+// sagarselvaraj059@gmail.com
+// marchbackupphotos7@gmail.com
+//devendraselvaraj8@gmail.com 

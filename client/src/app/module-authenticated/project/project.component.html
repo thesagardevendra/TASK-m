@@ -1,0 +1,173 @@
+<ngx-loading [show]="loading"></ngx-loading>
+<div *ngIf="!isProjectList&&!loading" class="h-full w-full flex items-center justify-center">
+    <div class="flex flex-col items-center ">
+        <i class="fa text-gray-300 text-7xl fa-folder-open mb-3"></i>
+        <span class="font-semibold text-gray-700 text-lg">You currently have no projects</span>
+        <span class="text-sm px-3 text-center text-gray-500 ">Let's create your first project in TASK-M</span>
+        <button (click)="showCreateProjectModal=true" routerLink="/task-m/project"
+            class="py-1.5 mt-3 text-sm font-semibold  px-3 rounded text-white transition-all ease-in-out duration-150 hover:scale-105 bg-blue-600 hover:bg-blue-800 cursor-pointer outline-none">Create
+            project</button>
+    </div>
+</div>
+<div *ngIf="isProjectList&&!loading" class="p-4 w-full flex flex-col gap-7">
+    <div class="flex w-full gap-4 items-center justify-between">
+        <div class="border border-gray-300  bg-gray-50 rounded  relative hidden md:flex gap-2 items-center">
+            <i class="fa fa-search text-gray-400 absolute left-2.5"></i>
+            <input
+                class="outline-none bg-transparent placeholder:capitalize flex-grow px-3 py-1 rounded pl-8  text-gray-700 placeholder:text-sm"
+                placeholder="Search projects" type="text" />
+        </div>
+        <button (click)="showCreateProjectModal=true" routerLink="/task-m/project"
+            class="py-1.5  text-sm font-semibold  px-3 rounded text-white transition-all ease-in-out duration-150 hover:scale-105 bg-blue-600 hover:bg-blue-800 cursor-pointer outline-none ">Create
+            project</button>
+    </div>
+    <div class="">
+        <div class="relative">
+            <table class="table gap-3 text-[15px] capitalize w-full text-center">
+                <thead class="w-full border-b-2">
+                    <tr class="text-gray-700  m-2 ">
+                        <th><i class="fa fa-star text-xs"></i></th>
+                        <th class="p-2 py-3">Name</th>
+                        <th>Key</th>
+                        <th>Type</th>
+                        <th>Lead</th>
+                        <!-- <th>Lead Email</th> -->
+                        <th>More actions</th>
+                    </tr>
+                </thead>
+                <tbody class="w-full border-b-2 text-gray-500" *ngFor="let projectList of projectList">
+                    <tr class="relative">
+                        <th (click)="updateProjectFavourite(projectList.favourite,projectList.projectName)"
+                            class="p-2 cursor-pointer"><i
+                                [ngClass]="projectList.favourite&&projectList.favourite==='true'?'fa fa-star text-yellow-500':'far fa-star'"
+                                class=""></i></th>
+                        <td>{{projectList.projectName}}</td>
+                        <td>{{projectList.projectKey}}</td>
+                        <td>{{projectList.projectTemplate}}</td>
+                        <td>{{projectList.reporterName}}</td>
+                        <!-- <td class="normal-case"> {{projectList.reporterEmail}}</td> -->
+                        <td class="relative cursor-pointer" (click)="showMoreAction(projectList.projectName)">
+                            <i class="fa fa-ellipsis"></i>
+                        </td>
+                        <div appClickoutsidedirective *ngIf="showModalForMoreAction&&showModalForMoreActionProjectName==projectList.projectName"
+                                class="absolute  text-sm flex flex-col h-auto z-10 w-auto shadow-lg rounded p-2 bg-white  top-5 right-32">
+                                <div
+                                    class="hover:text-gray-800 gap-2 justify-center flex items-center whitespace-nowrap cursor-pointer p-2 rounded hover:bg-gray-200 normal-case">
+                                    Project
+                                    setting <i class="fa text-sm fa-gear"> </i></div>
+                                <div (click)="this.showModalForMoreAction=false;this.showModalForTrash=true; this.showModalForMoreActionProjectName=projectList.projectName"
+                                    class="hover:text-gray-800 gap-2 justify-center flex items-center  cursor-pointer p-2 rounded hover:bg-gray-200 normal-case whitespace-nowrap">
+                                    Move
+                                    to trash <i class="fa text-sm fa-trash"> </i></div>
+                                <div (click)="closeShowModalForMoreAction()"
+                                    class=" cursor-pointer pt-2 rounded text-red-600 gap-2 justify-center flex items-center normal-case">
+                                    Close
+                                    <i class="fa text-lg fa-times"> </i>
+                                </div>
+                            </div>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+</div>
+
+
+
+<!-- Create Project Modal -->
+<div [ngClass]="showCreateProjectModal?'w-auto h-full p-4 transition-all ease-in-out duration-75 absolute right-0 top-0 z-10  bg-white shadow-2xl':'w-0'"
+    class=" ">
+    <div [ngClass]="showCreateProjectModal?'':'hidden'"
+        class="mb-4 font-normal flex justify-between items-center text-lg">
+        <span class="flex-grow text-center font-semibold">Create Project</span>
+        <i (click)="showCreateProjectModal=false" class="fa text-lg text-red-600 cursor-pointer fa-times"></i>
+    </div>
+    <form [ngClass]="showCreateProjectModal?'':'hidden'" [formGroup]="projectForm" (ngSubmit)="submitProjectForm()"
+        class="flex flex-col gap-6 ">
+        <!-- Project Name -->
+        <div class="flex flex-col gap-1 md:w-80 w-full">
+            <div class="flex justify-between items-center">
+                <span class="text-sm text-gray-900">Project Name <span class="text-red-600">*</span></span>
+                <div *ngIf="projectForm.controls.projectName.touched&&projectForm.controls.projectName.invalid">
+                    <span
+                        *ngIf="projectForm.controls.projectName.touched&&projectForm.controls.projectName.hasError('required')"
+                        class="text-xs text-red-600 tracking-wider text-right">Project Name is required</span>
+                    <span
+                        *ngIf="projectForm.controls.projectName.touched&&projectForm.controls.projectName.hasError('pattern')"
+                        class="text-xs text-red-600 tracking-wider text-right">Project Name invalid pattern</span>
+                </div>
+            </div>
+            <div class="border bg-gray-50 flex-grow rounded  relative flex gap-2 items-center">
+                <i class="fa fa-project-diagram text-gray-400 absolute left-2.5"></i>
+                <input
+                    [ngClass]="projectForm.controls.projectName.touched&&projectForm.controls.projectName.invalid?'border-red-600':'border-gray-300 focus:border-gray-500'"
+                    formControlName="projectName"
+                    class="outline-none bg-transparent flex-grow px-3 rounded py-1.5 pl-8 border text-gray-700 placeholder:text-sm"
+                    placeholder="Enter project name" type="text" />
+            </div>
+        </div>
+        <!-- Project Template -->
+        <div class="flex flex-col gap-1 md:w-80 w-full">
+            <div class="flex justify-between items-center">
+                <span class="text-sm text-gray-900">Project Template </span>
+            </div>
+            <div class="border bg-gray-50 flex-grow rounded  relative flex gap-2 items-center">
+                <i class="fa fa-columns text-gray-400 absolute left-2.5"></i>
+                <input readonly value="Kanban" defaultValue="Kanban" formControlName="projectTemplate"
+                    class="outline-none bg-transparent flex-grow px-3 rounded py-1.5 pl-8 border text-gray-700 placeholder:text-sm"
+                    placeholder="Kanban" type="text" value="Kanban" />
+            </div>
+        </div>
+        <!-- Project Template -->
+        <div class="flex flex-col gap-1 md:w-80 w-full">
+            <div class="flex justify-between items-center">
+                <span class="text-sm text-gray-900">Project Key <span class="text-red-600">*</span></span>
+                <div *ngIf="projectForm.controls.projectKey.touched&&projectForm.controls.projectKey.invalid">
+                    <span
+                        *ngIf="projectForm.controls.projectKey.touched&&projectForm.controls.projectKey.hasError('required')"
+                        class="text-xs text-red-600 tracking-wider text-right">Project Key is required</span>
+                    <span
+                        *ngIf="projectForm.controls.projectKey.touched&&projectForm.controls.projectKey.hasError('pattern')"
+                        class="text-xs text-red-600 tracking-wider text-right">Only uppercase character is
+                        allowed</span>
+                </div>
+            </div>
+            <div class="border bg-gray-50 flex-grow rounded  relative flex gap-2 items-center">
+                <i class="fa fa-key text-gray-400 absolute left-2.5"></i>
+                <input formControlName="projectKey"
+                    [ngClass]="projectForm.controls.projectKey.touched&&projectForm.controls.projectKey.invalid?'border-red-600':'border-gray-300 focus:border-gray-500'"
+                    class="outline-none bg-transparent placeholder:capitalize flex-grow px-3 rounded py-1.5 pl-8 border text-gray-700 placeholder:text-sm"
+                    placeholder="Enter project Key" type="text" />
+            </div>
+        </div>
+        <button [disabled]="projectForm.invalid"
+            [ngClass]="projectForm.invalid?'bg-gray-400 text-gray-300 cursor-not-allowed':'text-white transition-all ease-in-out duration-150 hover:scale-105 bg-blue-600 hover:bg-blue-800  cursor-pointer'"
+            class=" md:my-2  py-1.5  px-3 font-semibold  w-auto rounded self-center" type="submit">Create</button>
+        <ngx-loading [show]="loading"></ngx-loading>
+    </form>
+
+</div>
+
+<!-- Trash Project Modal -->
+<div [ngClass]="showModalForTrash?'w-full h-full flex justify-center items-center  p-4 transition-all ease-in-out duration-75 absolute right-0 top-0 z-10  bg-gray-900 bg-opacity-30 shadow-2xl':'hidden'"
+    class=" ">
+    <div class="w-auto h-auto bg-white p-4 flex flex-col rounded justify-center gap-4 ">
+        <div class="flex gap-3 items-center">
+            <i class="fa fa-exclamation-circle text-2xl text-red-600"></i>
+            <span class="text-lg font-semibold">Move to trash?</span>
+        </div>
+        <span class="w-72 text-gray-500 text-[15px]">The project along with it's issues, components, attachments, and
+            version will be premanently deleted.</span>
+
+        <div class="self-end flex gap-2">
+            <button
+                class="py-1.5 mt-3 text-sm font-semibold  px-3 rounded text-blue-800 transition-all ease-in-out hover:text-white duration-150 hover:scale-105  hover:bg-blue-800 cursor-pointer outline-none"
+                (click)="showModalForTrash=false">Cancel</button>
+            <button (click)="deleteTheProject()"
+                class="py-1.5 mt-3 text-sm font-semibold  px-3 rounded text-white transition-all ease-in-out duration-150 hover:scale-105 bg-red-600  cursor-pointer outline-none">Move</button>
+        </div>
+    </div>
+
+</div>

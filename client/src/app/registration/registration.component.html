@@ -1,0 +1,169 @@
+<div class="bg-gray-200 h-full flex relative flex-col gap-4   justify-center items-center rounded shadow-lg md:p-10 w-full md:w-auto p-5">
+    <div class="absolute top-2 md:hidden left-3 flex flex-col">
+        <span class="text-blue-700 font-black text-lg">TASK-M</span>
+    </div>
+    <form *ngIf="!showOTPScreen" [formGroup]="registrationForm" (ngSubmit)="sendOTP()"
+        class="flex relative flex-col gap-4  justify-center items-center">
+        <!-- <div class="flex items-center gap-2 absolute top-3 right-3 md:hidden">
+            <span class="md:text-sm text-xs font-semibold text-gray-700">Already have an account?</span>
+            <p routerLink="/login"
+                class="md:py-1.5 md:px-3 py-1 px-2 font-semibold uppercase rounded text-white transition-all ease-in-out duration-150 hover:scale-105 bg-blue-600 hover:bg-gray-100 text-sm cursor-pointer">
+                LOGIN</p>
+        </div> -->
+        <span class="md:text-4xl text-2xl font-bold">Let's go!</span>
+        <!-- Full Name -->
+        <!-- <app-userinput formControlName="name" class="w-full" placeholder="John Deo" icon="far fa-user" label="Full Name"></app-userinput> -->
+        <div class="flex flex-col gap-1 md:w-80 w-full">
+            <div class="flex justify-between items-center">
+                <span class="text-sm text-gray-900">Full Name <span class="text-red-600">*</span></span>
+                <div *ngIf="registrationForm.controls.fullName.touched&&registrationForm.controls.fullName.invalid">
+                    <span
+                        *ngIf="registrationForm.controls.fullName.touched&&registrationForm.controls.fullName.hasError('required')"
+                        class="text-xs text-red-600 tracking-wider text-right">Full Name is required</span>
+                    <span
+                        *ngIf="registrationForm.controls.fullName.touched&&registrationForm.controls.fullName.hasError('pattern')"
+                        class="text-xs text-red-600 tracking-wider text-right">Full Name Invalid</span>
+                </div>
+            </div>
+            <div class="border bg-gray-100 flex-grow rounded  relative flex gap-2 items-center">
+                <i class="text-gray-400 far fa-user absolute left-2.5"></i>
+                <input maxlength="20"
+                    [ngClass]="registrationForm.controls.fullName.touched&&registrationForm.controls.fullName.invalid?'border-red-600':'border-gray-300 focus:border-gray-500'"
+                    formControlName="fullName"
+                    class="outline-none bg-transparent flex-grow px-3 rounded py-1.5 pl-8 border text-gray-700 placeholder:text-sm"
+                    placeholder="John Deo" type="text" />
+            </div>
+
+        </div>
+        <!-- Email -->
+        <div class="flex flex-col gap-1 md:w-80 w-full">
+            <div class="flex justify-between items-center">
+                <span class="text-sm text-gray-900">Email <span class="text-red-600">*</span></span>
+                <div *ngIf="registrationForm.controls.email.touched&&registrationForm.controls.email.invalid">
+                    <span
+                        *ngIf="registrationForm.controls.email.touched&&registrationForm.controls.email.hasError('required')"
+                        class="text-xs text-red-600 tracking-wider text-right">Email is required</span>
+                    <span
+                        *ngIf="registrationForm.controls.email.touched&&registrationForm.controls.email.hasError('pattern')"
+                        class="text-xs text-red-600 tracking-wider text-right">Email invalid pattern</span>
+                </div>
+            </div>
+            <div class="border bg-gray-100 flex-grow rounded  relative flex gap-2 items-center">
+                <i class="far fa-envelope text-gray-400 absolute left-2.5"></i>
+                <input
+                    [ngClass]="registrationForm.controls.email.touched&&registrationForm.controls.email.invalid?'border-red-600':'border-gray-300 focus:border-gray-500'"
+                    formControlName="email"
+                    class="outline-none bg-transparent flex-grow px-3 rounded py-1.5 pl-8 border text-gray-700 placeholder:text-sm"
+                    placeholder="example@gmail.com" type="text" />
+            </div>
+        </div>
+        <!-- Mobile -->
+        <div class="flex flex-col gap-1 md:w-80 w-full">
+            <div class="flex justify-between items-center">
+                <span class="text-sm text-gray-900">Phone Number <span class="text-red-600">*</span></span>
+                <div *ngIf="registrationForm.controls.mobile.touched&&registrationForm.controls.mobile.invalid">
+                    <span
+                        *ngIf="registrationForm.controls.mobile.touched&&registrationForm.controls.mobile.hasError('required')"
+                        class="text-xs text-red-600 tracking-wider text-right">Phone Number is required</span>
+                    <span
+                        *ngIf="registrationForm.controls.mobile.touched&&registrationForm.controls.mobile.hasError('pattern')"
+                        class="text-xs text-red-600 tracking-wider text-right">Phone Number Invalid</span>
+                </div>
+            </div>
+            <div class="border bg-gray-100 flex-grow rounded  relative flex gap-2 items-center">
+                <div class="flex gap-2 items-center absolute left-2.5">
+                    <i class="fa fa-mobile text-gray-400"></i>
+                    <span class=" text-gray-700">+91</span>
+                </div>
+                <input
+                    [ngClass]="registrationForm.controls.mobile.touched&&registrationForm.controls.mobile.invalid?'border-red-600':'border-gray-300 focus:border-gray-500'"
+                    maxlength="10" formControlName="mobile"
+                    class="outline-none placeholder:tracking-widest tracking-widest bg-transparent flex-grow px-3 rounded py-2 pl-16 border  text-gray-700"
+                    placeholder="999999999" type="text" />
+
+            </div>
+        </div>
+        <!-- Password -->
+        <div class="flex flex-col gap-1 md:w-80 w-full">
+            <div class="flex justify-between items-center">
+                <span class="text-sm text-gray-900">Password <span class="text-red-600">*</span></span>
+                <div *ngIf="registrationForm.controls.password.touched&&registrationForm.controls.password.invalid">
+                    <span
+                        *ngIf="registrationForm.controls.password.touched&&registrationForm.controls.password.hasError('required')"
+                        class="text-xs text-red-600 tracking-wider text-right">Password is required</span>
+                    <span
+                        *ngIf="registrationForm.controls.password.touched&&registrationForm.controls.password.hasError('pattern')"
+                        class="text-xs text-red-600 tracking-wider text-right">Password invalid pattern</span>
+                </div>
+            </div>
+            <div class="border bg-gray-100 flex-grow rounded  relative flex gap-2 items-center">
+                <i class="fa fa-lock text-gray-400 absolute left-2.5"></i>
+                <div (click)="tooglePasswordType=!tooglePasswordType" class="absolute cursor-pointer right-2.5 p-0 m-0">
+                    <i [ngClass]="tooglePasswordType?'fa-eye text-blue-700':'fa-eye-slash text-gray-400'"
+                        class="fa"></i>
+                </div>
+                <input
+                    [ngClass]="registrationForm.controls.password.touched&&registrationForm.controls.password.invalid?'border-red-600':'border-gray-300 focus:border-gray-500'"
+                    maxlength="14" formControlName="password"
+                    class="outline-none bg-transparent flex-grow px-3 rounded py-1.5 pl-8 border text-gray-700 placeholder:text-sm"
+                    placeholder="Minimum 10 characters" [type]="tooglePasswordType?'text':'password'" />
+            </div>
+        </div>
+        <button [disabled]="registrationForm.invalid"
+            [ngClass]="registrationForm.invalid?'bg-gray-400 text-gray-300 cursor-not-allowed':'text-white transition-all ease-in-out duration-150 hover:scale-105 bg-blue-600 hover:bg-blue-800 cursor-pointer'"
+            class=" md:my-2  py-2 font-semibold uppercase w-60 rounded" type="submit">Sign up
+            with TASK-M</button>
+        <span class="text-[11px] text-gray-700 md:w-80 w-full text-center md:bottom-1">By clicking the button above, you
+            agree to our Terms of Service and
+            privacy Policy.</span>
+        <div class="flex items-center gap-1">
+            <span class="md:text-sm text-xs font-semibold text-gray-700">Already have an account?</span>
+            <p routerLink="/login"
+                class="font-semibold uppercase rounded underline text-blue-700 transition-all ease-in-out duration-150 hover:scale-105  text-sm cursor-pointer">
+                LOGIN</p>
+        </div>
+    </form>
+    <form [formGroup]="OTPForm" *ngIf="showOTPScreen" (ngSubmit)="submitRegistrationForm()"
+        class="flex relative flex-col gap-4 justify-center items-center">
+
+        <span class="md:text-3xl text-2xl font-bold">Account verification</span>
+        <span class="self-start text-[16px] font-normal text-gray-500">Please enter the code we emailed you.</span>
+        <span class="self-start -mt-[15px] text-[16px] font-semibold text-gray-600 underline">{{registeredEmail}}</span>
+        <!-- Full Name -->
+        <!-- <app-userinput formControlName="name" class="w-full" placeholder="John Deo" icon="far fa-user" label="Full Name"></app-userinput> -->
+        <div class="flex flex-col gap-1 md:w-80 w-full">
+            <div class="flex justify-between items-center">
+                <span class="text-sm text-gray-900"> Confirmation code<span class="text-red-600">*</span></span>
+                <div *ngIf="OTPForm.controls.OTP.touched&&OTPForm.controls.OTP.invalid">
+                    <span *ngIf="OTPForm.controls.OTP.touched&&OTPForm.controls.OTP.hasError('required')"
+                        class="text-xs text-red-600 tracking-wider text-right">OTP is required</span>
+                    <span *ngIf="OTPForm.controls.OTP.touched&&OTPForm.controls.OTP.hasError('pattern')"
+                        class="text-xs text-red-600 tracking-wider text-right">Only number is allowed.</span>
+                </div>
+            </div>
+            <div class="border bg-gray-100 flex-grow rounded  relative flex gap-2 items-center">
+                <i class="text-gray-400 text-xl fa fa-key absolute left-2.5"></i>
+                <input maxlength="6"
+                    [ngClass]="OTPForm.controls.OTP.touched&&OTPForm.controls.OTP.invalid?'border-red-600':'border-gray-300 focus:border-gray-500'"
+                    formControlName="OTP"
+                    class="outline-none  placeholder:tracking-widest placeholder:mt-3 w-full text-center font-black  tracking-widest bg-transparent text-3xl px-3 rounded py-2  border-b  text-gray-700"
+                    placeholder="******" type="text" />
+            </div>
+            <button [disabled]="OTPForm.invalid"
+                [ngClass]="OTPForm.invalid?'bg-gray-400  text-gray-300 cursor-not-allowed':'text-white transition-all ease-in-out duration-150 hover:scale-105 bg-blue-600 hover:bg-gray-100 cursor-pointer'"
+                class=" my-4  py-1.5 px-5 font-semibold self-center uppercase w-auto rounded"
+                type="submit">Verify</button>
+        </div>
+    </form>
+    <ngx-loading [show]="loading"></ngx-loading>
+</div>
+
+
+
+
+<!-- {
+    "fullName": "Sagar Devendra",
+    "password": "Password@1234",
+    "email": "sagar.selvaraj059@gmail.com",
+    "mobile": 9372925369
+} -->
