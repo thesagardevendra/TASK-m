@@ -2,7 +2,7 @@
     <div class="absolute top-2 md:hidden left-3 flex flex-col">
         <span class="text-blue-700 font-black text-lg">TASK-M</span>
     </div>
-    <form *ngIf="!showOTPScreen" [formGroup]="registrationForm" (ngSubmit)="sendOTP()"
+    <form *ngIf="!showOTPScreen" [formGroup]="registrationForm" (ngSubmit)="sendOTP('generateOTP')"
         class="flex relative flex-col gap-4  justify-center items-center">
         <!-- <div class="flex items-center gap-2 absolute top-3 right-3 md:hidden">
             <span class="md:text-sm text-xs font-semibold text-gray-700">Already have an account?</span>
@@ -27,7 +27,7 @@
             </div>
             <div class="border bg-gray-100 flex-grow rounded  relative flex gap-2 items-center">
                 <i class="text-gray-400 far fa-user absolute left-2.5"></i>
-                <input maxlength="20"
+                <input name="fullName" maxlength="20"
                     [ngClass]="registrationForm.controls.fullName.touched&&registrationForm.controls.fullName.invalid?'border-red-600':'border-gray-300 focus:border-gray-500'"
                     formControlName="fullName"
                     class="outline-none bg-transparent flex-grow px-3 rounded py-1.5 pl-8 border text-gray-700 placeholder:text-sm"
@@ -50,7 +50,7 @@
             </div>
             <div class="border bg-gray-100 flex-grow rounded  relative flex gap-2 items-center">
                 <i class="far fa-envelope text-gray-400 absolute left-2.5"></i>
-                <input
+                <input name="email"
                     [ngClass]="registrationForm.controls.email.touched&&registrationForm.controls.email.invalid?'border-red-600':'border-gray-300 focus:border-gray-500'"
                     formControlName="email"
                     class="outline-none bg-transparent flex-grow px-3 rounded py-1.5 pl-8 border text-gray-700 placeholder:text-sm"
@@ -75,7 +75,7 @@
                     <i class="fa fa-mobile text-gray-400"></i>
                     <span class=" text-gray-700">+91</span>
                 </div>
-                <input
+                <input name="mobile"
                     [ngClass]="registrationForm.controls.mobile.touched&&registrationForm.controls.mobile.invalid?'border-red-600':'border-gray-300 focus:border-gray-500'"
                     maxlength="10" formControlName="mobile"
                     class="outline-none placeholder:tracking-widest tracking-widest bg-transparent flex-grow px-3 rounded py-2 pl-16 border  text-gray-700"
@@ -102,7 +102,7 @@
                     <i [ngClass]="tooglePasswordType?'fa-eye text-blue-700':'fa-eye-slash text-gray-400'"
                         class="fa"></i>
                 </div>
-                <input
+                <input name="password"
                     [ngClass]="registrationForm.controls.password.touched&&registrationForm.controls.password.invalid?'border-red-600':'border-gray-300 focus:border-gray-500'"
                     maxlength="14" formControlName="password"
                     class="outline-none bg-transparent flex-grow px-3 rounded py-1.5 pl-8 border text-gray-700 placeholder:text-sm"
@@ -143,14 +143,22 @@
             </div>
             <div class="border bg-gray-100 flex-grow rounded  relative flex gap-2 items-center">
                 <i class="text-gray-400 text-xl fa fa-key absolute left-2.5"></i>
-                <input maxlength="6"
+                <input  name="OTP" maxlength="6"
                     [ngClass]="OTPForm.controls.OTP.touched&&OTPForm.controls.OTP.invalid?'border-red-600':'border-gray-300 focus:border-gray-500'"
                     formControlName="OTP"
                     class="outline-none  placeholder:tracking-widest placeholder:mt-3 w-full text-center font-black  tracking-widest bg-transparent text-3xl px-3 rounded py-2  border-b  text-gray-700"
                     placeholder="******" type="text" />
             </div>
+            <div class="flex justify-end my-1">
+                <span (click)="sendOTP('resendOTP')" *ngIf="isresendOTP" class="text-sm font-semibold transition-all duration-200 ease-in-out text-blue-800 hover:underline hover:scale-105 cursor-pointer">Resend OTP</span>
+                    <div *ngIf="!isresendOTP" class="text-xs flex space-x-1 text-gray-600 font-bold"> <span
+                            class="text-primary opacity-40">Resend OTP</span>
+                        <span>{{formatTime(OTPResendCount)}} secs</span>
+                    </div>
+                
+            </div>
             <button [disabled]="OTPForm.invalid"
-                [ngClass]="OTPForm.invalid?'bg-gray-400  text-gray-300 cursor-not-allowed':'text-white transition-all ease-in-out duration-150 hover:scale-105 bg-blue-600 hover:bg-gray-100 cursor-pointer'"
+                [ngClass]="OTPForm.invalid?'bg-gray-400  text-gray-300 cursor-not-allowed':'text-white transition-all ease-in-out duration-150 hover:scale-105 bg-blue-500 hover:bg-blue-800 cursor-pointer'"
                 class=" my-4  py-1.5 px-5 font-semibold self-center uppercase w-auto rounded"
                 type="submit">Verify</button>
         </div>

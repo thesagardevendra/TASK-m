@@ -7,45 +7,20 @@ const validateField = require("../utils/validateField");
 const handlebars = require('handlebars');
 const generateTeamEmail = require("../utils/generateTeamEmail");
 
-const userRegister = async (req, res) => {
+const  userFetchTeamKeyWise= async (req, res) => {
     // const data = await collection.find({}).toArray();
     let DBConnection;
-    const allowedFields = ['fullName', 'email', 'mobile', 'password',];
-    const { fullName, email, mobile, password, } = req.body;
+    const allowedFields = ['teamKey', 'email'];
+    const { teamKey, email } = req.body;
     try {
         fieldDuplication(req, allowedFields)
-        validateField(fullName, 'string');
-        validateField(password, 'string', /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z])(?=.*[!@#$%&]).{10,}$/);
+        validateField(teamKey, 'string');
         validateField(email, 'string', /^[a-zA-Z0-9._%+-]+@gmail\.com$/);
-        validateField(mobile, 'string', /^[789]\d{9}$/);
         DBConnection = await connectToMongoDB();
-        const registrationCollection = DBConnection.collection('registration');
-        const checkDuplicateRegistration = await registrationCollection.findOne({ email: email });
-        if (checkDuplicateRegistration && checkDuplicateRegistration.email === email) { return res.status(200).json({ statusCode: 409, message: "User already registered" }) }
-        const OTPInfoCollection = DBConnection.collection('OTPInfo');
-        const dynamicData = {
-            OTP: randomOTP()
-        }
-        const findOTPInfoData = await OTPInfoCollection.findOne({ userEmail: email });
-        if (findOTPInfoData && findOTPInfoData.userEmail === email) {
-            const result = await OTPInfoCollection.updateOne({
-                userEmail: email,
-            }, { $set: { OTPNumber: dynamicData.OTP, modifiedAt: new Date() } });
-            if (result) { return res.status(200).json({ statusCode: 200, message: "OTP re-sent successfully to the registered email account" }) }
-        } else {
-            const result = await OTPInfoCollection.insertOne({
-                OTPNumber: dynamicData.OTP,
-                OTPSentGmail: 'true',
-                userFullName: fullName,
-                userPassword: password,
-                userEmail: email,
-                userMobileNumber: mobile,
-                createdAt: new Date(),
-                modifiedAt: new Date()
-            });
-           
-            if (result) { return res.status(200).json({ statusCode: 200, message: "OTP sent successfully to the registered email account" }) }
-        }
+        const userCollection = DBConnection.collection('user');
+        const fetchUserData = await userCollection.find({ teamKey: teamKey }).toArray();
+        // setTimeout(() => {
+        if (fetchUserData) { return res.status(200).json({ statusCode: 200, message: "Data Fetched successfully", data: fetchUserData }) }
         // With E-mail
         // fs.readFile('./template/verifyAccount.hbs', 'utf8', (err, htmlContent) => {
         //     if (err) {
@@ -108,6 +83,6 @@ const userRegister = async (req, res) => {
 };
 
 module.exports = {
-    userRegister,
+    userFetchTeamKeyWise,
 };
 

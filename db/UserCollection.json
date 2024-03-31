@@ -1,0 +1,91 @@
+"fullName",
+"email",
+"mobile",
+"teamKey",
+"role",
+"createdAt",
+"modifiedAt"
+
+db.user.insertMany([
+    {
+        "fullName":"Sagar Selvaraj",
+        "email":"sagar.selvaraj@gmail.com",
+        "mobile":"9372925369",
+        "teamKey":"sagarselvaraj059team1239999",
+        "role":"member",
+        "createdAt":new Date(),
+        "modifiedAt":new Date()
+    },
+    {
+        "fullName":"John Selvaraj",
+        "email":"john.selvaraj@gmail.com",
+        "mobile":"9372925369",
+        "teamKey":"sagarselvaraj059team1239999",
+        "role":"member",
+        "createdAt":new Date(),
+        "modifiedAt":new Date()
+    },
+    {
+        "fullName":"Sagar devendra",
+        "email":"sagar.devendra@gmail.com",
+        "mobile":"9372925369",
+        "teamKey":"sagarselvaraj059team1239999",
+        "role":"member",
+        "createdAt":new Date(),
+        "modifiedAt":new Date()
+    },
+    {
+        "fullName":"sunny nagarji",
+        "email":"sunny.nagarji@gmail.com",
+        "mobile":"9372925369",
+        "teamKey":"sagarselvaraj059team1239999",
+        "role":"member",
+        "createdAt":new Date(),
+        "modifiedAt":new Date()
+    },
+    {
+        "fullName":"mahesh ashokan",
+        "email":"mahesh.ashokan@gmail.com",
+        "mobile":"9372925369",
+        "teamKey":"sagarselvaraj059team1239999",
+        "role":"member",
+        "createdAt":new Date(),
+        "modifiedAt":new Date()
+    },
+    {
+        "fullName":"suresh rajan",
+        "email":"suresh.rajan@gmail.com",
+        "mobile":"9372925369",
+        "teamKey":"sagarselvaraj059team1239999",
+        "role":"member",
+        "createdAt":new Date(),
+        "modifiedAt":new Date()
+    },
+    {
+        "fullName":"dinesh vishwa",
+        "email":"dinesh.vishwa@gmail.com",
+        "mobile":"9372925369",
+        "teamKey":"sagarselvaraj059team1239999",
+        "role":"member",
+        "createdAt":new Date(),
+        "modifiedAt":new Date()
+    },
+    {
+        "fullName":"martin raju",
+        "email":"martin.raju@gmail.com",
+        "mobile":"9372925369",
+        "teamKey":"sagarselvaraj059team1239999",
+        "role":"member",
+        "createdAt":new Date(),
+        "modifiedAt":new Date()
+    },
+    {
+        "fullName":"sree siva",
+        "email":"sree.siva@gmail.com",
+        "mobile":"9372925369",
+        "teamKey":"sagarselvaraj059team1239999",
+        "role":"member",
+        "createdAt":new Date(),
+        "modifiedAt":new Date()
+    },
+])

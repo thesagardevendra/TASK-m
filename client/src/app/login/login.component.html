@@ -19,7 +19,7 @@
         </div>
         <div class="border bg-gray-100 flex-grow rounded  relative flex gap-2 items-center">
             <i class="far fa-envelope text-gray-400 absolute left-2.5"></i>
-            <input
+            <input name="username"
                 [ngClass]="loginForm.controls.username.touched&&loginForm.controls.username.invalid?'border-red-600':'border-gray-300 focus:border-gray-500'"
                 formControlName="username"
                 class="outline-none bg-transparent flex-grow px-3 rounded py-1.5 pl-8 border text-gray-700 placeholder:text-sm"
@@ -42,7 +42,7 @@
             <div (click)="tooglePasswordType=!tooglePasswordType" class="absolute cursor-pointer right-2.5 p-0 m-0">
                 <i [ngClass]="tooglePasswordType?'fa-eye text-blue-700':'fa-eye-slash text-gray-400'" class="fa"></i>
             </div>
-            <input
+            <input name="password"
                 [ngClass]="loginForm.controls.password.touched&&loginForm.controls.password.invalid?'border-red-600':'border-gray-300 focus:border-gray-500'"
                 maxlength="14" formControlName="password"
                 class="outline-none bg-transparent flex-grow px-3 rounded py-1.5 pl-8 border text-gray-700 placeholder:text-sm"

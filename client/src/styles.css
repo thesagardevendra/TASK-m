@@ -12,6 +12,9 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
+body.modal-open{
+  overflow: hidden;
+}
 /* Firefox */
 input[type=number] {
   -moz-appearance: textfield;
@@ -159,8 +162,11 @@ button.toast-close-button {
 /* https://github.com/FortAwesome/Font-Awesome-Pro/blob/master/advanced-options/raw-svg/regular/times-circle.svg */
 .toast-error {
   background-image: url("./assets/Cancel.svg") !important;
-}
 
+}
+.toast-error {
+  background-color: #980800 !important;
+}
 /* https://github.com/FortAwesome/Font-Awesome-Pro/blob/master/advanced-options/raw-svg/regular/check.svg */
 .toast-success {
   background-image: url("./assets/Success.svg") !important;

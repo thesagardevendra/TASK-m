@@ -14,7 +14,7 @@ export class ProjectComponent implements OnInit {
     projectTemplate: new FormControl(''),
     projectKey: new FormControl('', [Validators.required, Validators.pattern('^[A-Z]+$')]),
   });
-  showCreateProjectModal: boolean = false;
+  isShowCreateProjectModal: boolean = false;
   loading: boolean = false;
   modalLoading: boolean = false;
   projectList: any;
@@ -35,6 +35,7 @@ export class ProjectComponent implements OnInit {
     let userName = JSON.parse(sessionStorage.getItem('userExits') || '');
     let request = {
       reporterEmail: userName.userEmail,
+      teamKey:userName.userTeamKey
     }
     this.http.serviceCall('http://localhost:3000/api/fetchProject', request).subscribe({
       next: (value: any) => {
@@ -73,6 +74,7 @@ export class ProjectComponent implements OnInit {
     })
   }
   submitProjectForm() {
+    document.getElementById('maindDiv')?.classList.add('overflow-y-scroll');
     this.modalLoading = true;
     this.projectForm.value.projectTemplate = 'Kanban';
     let userName = JSON.parse(sessionStorage.getItem('userExits') || '');
@@ -82,14 +84,15 @@ export class ProjectComponent implements OnInit {
       projectKey: this.projectForm.value.projectKey,
       reporterEmail: userName.userEmail,
       reporterName: userName.userName,
-      favourite: 'false'
+      favourite: 'false',
+      teamKey:userName.userTeamKey
     }
     this.http.serviceCall('http://localhost:3000/api/createProject', request).subscribe({
       next: (value: any) => {
         if (value.statusCode == 200) {
           this.toastr.success('Project has been created successfully');
           this.projectForm.reset();
-          this.showCreateProjectModal = false;
+          this.isShowCreateProjectModal = false;
           this.fetchProjects()
         } else {
           this.toastr.error('Project name already exists');
@@ -101,14 +104,28 @@ export class ProjectComponent implements OnInit {
       }
     })
   }
+  showCreateProjectModal(){
+    this.isShowCreateProjectModal = true;
+    document.getElementById('maindDiv')?.classList.remove('overflow-y-scroll');
+  }
+  closeCreateProjectModal(){
+    this.isShowCreateProjectModal = false;
+    document.getElementById('maindDiv')?.classList.add('overflow-y-scroll');
+  }
   showMoreAction(projectName: any) {
-
     this.showModalForMoreAction = true;
     this.showModalForMoreActionProjectName = projectName
   }
-
+  openMoveToTrashConfirmModal(projectName: any) {
+    this.showModalForMoreAction = false;
+    this.showModalForTrash = true;
+    this.showModalForMoreActionProjectName = projectName
+    document.getElementById('maindDiv')?.classList.remove('overflow-y-scroll');
+    window.scrollTo(0,0);
+  }
   deleteTheProject() {
     this.showModalForMoreAction = false;
+    document.getElementById('maindDiv')?.classList.add('overflow-y-scroll');
     this.showModalForTrash = false;
     this.loading = true;
     let request = {
@@ -130,6 +147,9 @@ export class ProjectComponent implements OnInit {
     this.showModalForMoreAction = false
     // this.showModalForMoreAction = false;
     // this.showModalForMoreActionProjectName=''
-
+  }
+  closeModal(){
+    this.showModalForTrash = false;
+    document.getElementById('maindDiv')?.classList.add('overflow-y-scroll');
   }
 }

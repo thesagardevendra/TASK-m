@@ -26,10 +26,14 @@ export class RegistrationComponent implements OnInit {
   showOTPScreen: boolean = false;
   registeredEmail!: string;
   loading: boolean = false;
+  isresendOTP: boolean = false
+  OTPResendinterval: any;
+  OTPResendCount: number = 60;
   constructor(private toastr: ToastrService, private http: HttpService, private router: Router) {
 
   }
   ngOnInit() {
+    // this.startTimer()
   }
   submitRegistrationForm() {
     this.loading = true;
@@ -56,7 +60,7 @@ export class RegistrationComponent implements OnInit {
     })
   }
 
-  sendOTP() {
+  sendOTP(from:any) {
     this.loading = true;
     let request = {
       fullName: this.registrationForm.value.fullName,
@@ -64,14 +68,17 @@ export class RegistrationComponent implements OnInit {
       email: this.registrationForm.value.email,
       mobile: this.registrationForm.value.mobile
     }
-
-
     this.http.serviceCall('http://localhost:3000/api/registration', request).subscribe({
       next: (value: any) => {
         if (value.statusCode == 200) {
           if (this.registrationForm.value.email !== '' || this.registrationForm.value.email !== undefined || this.registrationForm.value.email !== null) {
             this.registeredEmail = this.registrationForm.value.email || '';
             this.showOTPScreen = true
+            if(from==="resendOTP"){
+              this.isresendOTP = false;
+              this.OTPResendCount = 60;
+            }
+            this.startTimer();
           }
         } else {
           this.toastr.error('Sorry, Your account is already registered with us')
@@ -81,6 +88,14 @@ export class RegistrationComponent implements OnInit {
       complete: () => { this.loading = false }
 
     })
+  }
+  formatTime(timeInSeconds: number): string {
+    const minutes = Math.floor(timeInSeconds / 60); const seconds = timeInSeconds % 60; return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+  }
+  startTimer() {
+    this.OTPResendinterval = setInterval(() => {
+      this.OTPResendCount <= 0 ? (clearTimeout(this.OTPResendinterval), this.OTPResendCount = 0, this.isresendOTP = true) : this.OTPResendCount--;
+    }, 1000)
   }
 }
 

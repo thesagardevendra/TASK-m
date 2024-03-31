@@ -19,7 +19,8 @@ const userCheck = async (req, res) => {
                 statusCode: 200, message: "Login successful", userDetails: {
                     userName: checkDuplicateRegistration.fullName,
                     userEmail: checkDuplicateRegistration.email,
-                    userPhoneNumber: checkDuplicateRegistration.mobile
+                    userPhoneNumber: checkDuplicateRegistration.mobile,
+                    userTeamKey:checkDuplicateRegistration.teamKey
                 }
             })
         } else {

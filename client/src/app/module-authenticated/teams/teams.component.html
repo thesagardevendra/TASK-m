@@ -1,0 +1,131 @@
+<ngx-loading [show]="loading"></ngx-loading>
+<div class="p-4 w-full flex flex-col gap-7">
+    <div class="flex w-full gap-4 items-center justify-between">
+        <div class="text-xl text-gray-600">People and teams</div>
+        <div class="flex items-center gap-2 flex-col md:flex-row">
+            <button
+                class="py-1.5  text-sm font-semibold  px-3 rounded text-gray-500 hover:text-white transition-all ease-in-out duration-150 hover:scale-105 bg-gray-200 hover:bg-gray-400 cursor-pointer outline-none ">Create
+                team</button>
+            <button (click)="showModalAddPeople()"
+                class="py-1.5  text-sm font-semibold  px-3 rounded text-white transition-all ease-in-out duration-150 hover:scale-105 bg-blue-700 hover:bg-blue-800 cursor-pointer outline-none ">Add
+                people</button>
+        </div>
+
+    </div>
+    <div class="border-b border-gray-300  w-60 bg-gray-50 rounded  relative flex gap-2 items-center">
+        <i class="fa fa-search text-gray-400 absolute left-2.5"></i>
+        <input name="search"
+            class="outline-none bg-transparent  flex-grow px-3 py-1 rounded pl-8  text-gray-700 placeholder:text-sm"
+            placeholder="Search for people and teams" type="text" />
+    </div>
+    <!-- People -->
+    <div class="flex flex-col gap-3">
+        <div>People</div>
+        <div class="m-2 flex gap-4 items-center flex-wrap">
+            <div
+                class="h-48 w-40 rounded cursor-pointer border border-gray-400 bg-gray-100 hover:shadow-lg hover:scale-105 transition-all ease-in-out duration-300 flex flex-col gap-2 items-center py-3 justify-center">
+                <i class="far fa-user-circle text-6xl text-blue-800"></i>
+                <span>Your teammate</span>
+                <button (click)="showModalAddPeople()"
+                    class="py-1.5  text-sm font-semibold  px-3 rounded text-gray-500 hover:text-white transition-all ease-in-out duration-150 hover:scale-105 bg-gray-200 hover:bg-gray-400 cursor-pointer outline-none ">Add
+                    people</button>
+            </div>
+            <div 
+                class="h-48 w-40 relative rounded cursor-pointer border border-gray-400 bg-gray-100 hover:shadow-lg  hover:scale-105 transition-all ease-in-out duration-300 flex flex-col gap-2 items-center justify-center">
+                <!-- <i class="fa fa-user-circle text-6xl text-blue-800"></i> -->
+                <div [ngClass]="generateRandomColor()"  class="h-20 flex items-center text-white justify-center w-20  rounded-full text-3xl  font-bold">
+                    <i class="fa fa-circle text-base animate-pulse  left-3 absolute top-3 text-green-500"></i>
+                    <span>{{this.userData.userName|extractInitials}}</span>
+                </div>
+                <span class="capitalize whitespace-nowrap">{{this.userData.userName}}</span>
+                <button
+                    class="py-1.5  text-sm font-semibold  px-3 text-gray-100  transition-all ease-in-out duration-150 hover:scale-105 bg-gray-100  outline-none ">Add
+                    people</button>
+            </div>
+            <div *ngFor="let teamUserList of teamUserList"
+            [ngClass]="teamUserList.email==userData.userEmail?'hidden':''"
+                class="h-48 w-40 rounded cursor-pointer border border-gray-400 bg-gray-100 hover:shadow-lg  hover:scale-105 transition-all ease-in-out duration-300 flex flex-col gap-2 items-center justify-center">
+                <!-- <i class="fa fa-user-circle text-6xl text-blue-800"></i> -->
+                <div [ngClass]="generateRandomColor()"  class="h-20 flex items-center text-white justify-center w-20  rounded-full text-3xl font-bold">
+                    <span>{{teamUserList.fullName|extractInitials}}</span>
+                </div>
+                <span class="capitalize whitespace-nowrap">{{teamUserList.fullName}}</span>
+                <button
+                    class="py-1.5  text-sm font-semibold  px-3 text-gray-100  transition-all ease-in-out duration-150 hover:scale-105 bg-gray-100  outline-none ">Add
+                    people</button>
+            </div>
+        </div>
+    </div>
+    <!-- Teams -->
+    <div class="flex flex-col gap-3">
+        <div>Your Teams</div>
+        <!-- <div class="m-2 flex gap-4 items-center">
+            <div
+                class="h-48 w-40 rounded cursor-pointer border border-gray-400 bg-gray-100 hover:shadow-lg hover:scale-105 transition-all ease-in-out duration-300 flex flex-col gap-2 items-center py-3 justify-center">
+                <i class="far fa-user-circle text-6xl text-blue-800"></i>
+                <span>Your teammate</span>
+                <button
+                    class="py-1.5  text-sm font-semibold  px-3 rounded text-gray-500 hover:text-white transition-all ease-in-out duration-150 hover:scale-105 bg-gray-200 hover:bg-gray-400 cursor-pointer outline-none ">Add
+                    people</button>
+            </div>
+            <div
+                class="h-48 w-40 rounded cursor-pointer border border-gray-400 bg-gray-100 hover:shadow-lg  hover:scale-105 transition-all ease-in-out duration-300 flex flex-col gap-2 items-center justify-center">
+                <i class="far fa-user-circle text-6xl text-blue-800"></i>
+                <span class="capitalize">{{this.userData.userName}}</span>
+                <button
+                class="py-1.5  text-sm font-semibold  px-3 text-gray-100  transition-all ease-in-out duration-150 hover:scale-105 bg-gray-100  outline-none ">Add
+                people</button>
+            </div>
+        </div> -->
+        <div class="flex w-full text-center h-96 gap-4 justify-center items-center flex-col">
+            <i class="fa text-gray-300 text-7xl fa-user-group mb-3"></i>
+            <span class="font-semibold text-gray-500">Share pages or mention teams rather than individual members</span>
+            <span class="text-sm -mt-3 text-gray-400">Create a team now or learn how you can collaborate with
+                teams</span>
+            <button
+                class="py-1.5  text-sm font-semibold  px-3 rounded text-white transition-all ease-in-out duration-150 hover:scale-105 bg-blue-700 hover:bg-blue-800 cursor-pointer outline-none ">Create
+                team</button>
+        </div>
+    </div>
+</div>
+
+
+<!-- Add people Modal -->
+<div [ngClass]="showModalForAddPeople?'w-screen  h-screen flex justify-center items-center  p-4 transition-all ease-in-out duration-75 absolute right-0 top-0 z-10  bg-gray-900 bg-opacity-30 shadow-2xl':'hidden'"
+    class=" ">
+    <div class="w-auto h-auto bg-white p-4 flex flex-col rounded justify-center gap-4 ">
+        <div class="flex gap-3 items-center">
+            <span class="text-lg font-semibold">Add people to TASK-M Software</span>
+        </div>
+        <div class="flex flex-col gap-1 md:w-80 w-full">
+            <div class="flex justify-between items-center">
+                <span class="text-sm text-gray-900">Names or emails <span class="text-red-600">*</span></span>
+                <!-- <div *ngIf="projectForm.controls.projectName.touched&&projectForm.controls.projectName.invalid">
+                    <span
+                        *ngIf="projectForm.controls.projectName.touched&&projectForm.controls.projectName.hasError('required')"
+                        class="text-xs text-red-600 tracking-wider text-right">Project Name is required</span>
+                    <span
+                        *ngIf="projectForm.controls.projectName.touched&&projectForm.controls.projectName.hasError('pattern')"
+                        class="text-xs text-red-600 tracking-wider text-right">Project Name invalid pattern</span>
+                          [ngClass]="projectForm.controls.projectName.touched&&projectForm.controls.projectName.invalid?'border-red-600':'border-gray-300 focus:border-gray-500'"
+                </div> -->
+            </div>
+            <div class="border bg-gray-50 flex-grow rounded  relative flex gap-2 items-center">
+                <i class="fa fa-user-group text-gray-400 absolute left-2.5"></i>
+                <input name="projectName" maxlength="14" formControlName="projectName"
+                    class="outline-none bg-transparent flex-grow px-3 rounded py-1.5 pl-8 border text-gray-700 placeholder:text-sm"
+                    placeholder="e.g., Maria, maria@gmail.com" type="text" />
+            </div>
+        </div>
+        <span class="w-60 md:w-72 text-gray-500  text-center text-sm">Share pages or mention teams rather than
+            individual members</span>
+        <div class="self-end flex gap-2">
+            <button
+                class="py-1.5 mt-3 text-sm font-semibold  px-3 rounded text-blue-800 transition-all ease-in-out hover:text-white duration-150 hover:scale-105  hover:bg-blue-800 cursor-pointer outline-none"
+                (click)="closeModal()">Cancel</button>
+            <button
+                class="py-1.5 mt-3 text-sm font-semibold  px-3 rounded text-white transition-all ease-in-out duration-150 hover:scale-105 bg-blue-800  cursor-pointer outline-none">Add</button>
+        </div>
+    </div>
+
+</div>

@@ -9,8 +9,8 @@ const handlebars = require('handlebars');
 const createProject = async (req, res) => {
     // const data = await collection.find({}).toArray();
     let DBConnection;
-    const allowedFields = ['projectName', 'projectTemplate', 'projectKey', 'reporterEmail', 'reporterName', 'favourite'];
-    const { projectName, projectTemplate, projectKey, reporterEmail, reporterName, favourite } = req.body;
+    const allowedFields = ['projectName', 'projectTemplate', 'projectKey', 'reporterEmail', 'reporterName', 'favourite', 'teamKey'];
+    const { projectName, projectTemplate, projectKey, reporterEmail, reporterName, favourite, teamKey } = req.body;
     try {
         fieldDuplication(req, allowedFields)
         validateField(projectName, 'string', /^[A-Za-z0-9_ ]+$/);
@@ -19,6 +19,7 @@ const createProject = async (req, res) => {
         validateField(reporterEmail, 'string', /^[a-zA-Z0-9._%+-]+@gmail\.com$/);
         validateField(reporterName, 'string');
         validateField(favourite, 'string');
+        validateField(teamKey, 'string');
         DBConnection = await connectToMongoDB();
         const projectCollection = DBConnection.collection('project');
         const checkDuplicateProjectName = await projectCollection.findOne({ projectName: projectName });
@@ -31,6 +32,7 @@ const createProject = async (req, res) => {
             reporterEmail: reporterEmail,
             reporterName: reporterName,
             favourite: favourite,
+            teamKey: teamKey,
             createdAt: new Date(),
             modifiedAt: new Date()
         });
@@ -101,14 +103,15 @@ const createProject = async (req, res) => {
 const fetchProject = async (req, res) => {
     // const data = await collection.find({}).toArray();
     let DBConnection;
-    const allowedFields = ['reporterEmail'];
-    const { reporterEmail, } = req.body;
+    const allowedFields = ['reporterEmail', 'teamKey'];
+    const { reporterEmail, teamKey } = req.body;
     try {
         fieldDuplication(req, allowedFields)
         validateField(reporterEmail, 'string', /^[a-zA-Z0-9._%+-]+@gmail\.com$/);
+        validateField(teamKey, 'string');
         DBConnection = await connectToMongoDB();
         const projectCollection = DBConnection.collection('project');
-        const fetchProjectName = await projectCollection.find({ reporterEmail: reporterEmail }).toArray();
+        const fetchProjectName = await projectCollection.find({ teamKey: teamKey }).toArray();
         console.log(fetchProjectName);
         // setTimeout(() => {
         if (fetchProjectName) { return res.status(200).json({ statusCode: 200, message: "Data Fetched successfully", data: fetchProjectName }) }

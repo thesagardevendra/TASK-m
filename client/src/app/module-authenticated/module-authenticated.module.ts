@@ -12,6 +12,9 @@ import { ToastrModule } from 'ngx-toastr';
 import { NgxLoadingModule, ngxLoadingAnimationTypes } from 'ngx-loading';
 import { HttpClientModule } from '@angular/common/http';
 import { ClickoutsidedirectiveDirective } from './clickoutsidedirective.directive';
+import { ProjectDetailsComponent } from './project-details/project-details.component';
+import { TeamsComponent } from './teams/teams.component';
+import { ExtractInitialsPipe } from '../pipes/ExtractInitialsPipe';
 
 @NgModule({
   declarations: [
@@ -19,14 +22,19 @@ import { ClickoutsidedirectiveDirective } from './clickoutsidedirective.directiv
     ModuleAuthenticatedComponent,
     YourWorkComponent,
     ProjectComponent,
-    ClickoutsidedirectiveDirective
+    ClickoutsidedirectiveDirective,
+    ProjectDetailsComponent,
+    TeamsComponent,
+    ExtractInitialsPipe
   ],
   imports: [
     CommonModule,
     ModuleAuthenticatedRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    ToastrModule.forRoot(),
+    ToastrModule.forRoot({
+      closeButton: true
+    }),
     NgxLoadingModule.forRoot({
       animationType: ngxLoadingAnimationTypes.circleSwish,
       backdropBackgroundColour: "rgba(0,0,0,0.1)",
